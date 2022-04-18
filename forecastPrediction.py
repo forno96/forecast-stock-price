@@ -6,17 +6,6 @@ from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from urllib.parse import urlencode
 from datetime import datetime, timedelta, date
 import plotly.graph_objects as go
-import holidays
-
-HOLIDAYS_US = holidays.US()
-
-
-def next_business_day(day):
-    next_day = day + timedelta(days=1)
-    while next_day.weekday() in holidays.WEEKEND or next_day in HOLIDAYS_US:
-        next_day += timedelta(days=1)
-
-    return next_day
 
 
 def get_df(STOCK, base_url='https://query1.finance.yahoo.com/v7/finance/download/', start_date=None, end_date=None):
@@ -88,8 +77,9 @@ def train_evaluate_data(df, forecast_col=['Open', 'Close', 'High', 'Low'], model
     # Add date for the predict
     Date = []
     last_day = df['Date'].max()
+    offset = pd.tseries.offsets.BusinessDay(n=1)
     for row in predict.iterrows():
-        last_day = next_business_day(last_day)
+        last_day = last_day + offset
         Date.append(last_day)    
     predict = predict.assign(Date=Date)
 
