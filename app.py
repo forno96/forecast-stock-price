@@ -21,7 +21,7 @@ stocks = {
 }
 stock_options = [{'label': label, 'value': code} for code, label in stocks.items()]
 models = {
-    'LinearRegression': 'Linear Regression', 'Ridge': 'Ridge', 'Lasso': 'Lasso'
+    'Lasso': 'Lasso', 'LinearRegression': 'Linear Regression', 'Ridge': 'Ridge'
 }
 model_options = [{'label': label, 'value': code} for code, label in models.items()]
 
@@ -68,4 +68,4 @@ def update_graph(STOCK, model_type, n_clicks):
     return show_data(STOCK, model.__class__.__name__, df, test_score, set_score, predict)
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, host="0.0.0.0", port=5000)
