@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: forecast-stock-price
-        image: localhost:32000/tincisnotforecastStockPrice
+        image: localhost:32000/forecast-stock-price
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
@@ -45,7 +45,7 @@ metadata:
   name: forecast-stock-price-ingress
 spec:
   rules:
-  - host: forecastStockPrice.forno96.it
+  - host: forecast-stock-price.forno96.it
     http:
       paths:
       - path: /
