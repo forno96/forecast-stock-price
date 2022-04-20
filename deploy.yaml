@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forecast-stock-price
+  labels:
+    app: forecast-stock-price
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: forecast-stock-price
+  template:
+    metadata:
+      labels:
+        app: forecast-stock-price
+    spec:
+      containers:
+      - name: forecast-stock-price
+        image: localhost:32000/tincisnotforecastStockPrice
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        env:
+        - name: SECRET_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: secret-key
+              key: secret_key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: forecast-stock-price-service
+spec:
+  selector:
+    app: forecast-stock-price
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: forecast-stock-price-ingress
+spec:
+  rules:
+  - host: forecastStockPrice.forno96.it
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: forecast-stock-price-service
+            port:
+              number: 5000
