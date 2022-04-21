@@ -37,8 +37,8 @@ def get_df(STOCK, base_url='https://query1.finance.yahoo.com/v7/finance/download
     return df
 
 
-def prepare_data(df, forecast_col=[], forecast_out=5, test_size=0.3):
-    # creating new column called label with the last 5 rows are nan
+def prepare_data(df, forecast_col=[], forecast_out=5, test_size=0.2):
+    # creating new column called label with the last 'forecast_out' rows are nan
     label = df[forecast_col].shift(-forecast_out)
     X = np.array(df[forecast_col])  # creating the feature array
     X = preprocessing.scale(X)  # processing the feature array
@@ -111,16 +111,17 @@ def show_data(STOCK, model_name, df, test_score, set_score, predict, sas=True):
         ]
     )
     fig = fig.update_xaxes(range=[
-        most_recent_data - timedelta(days=40),
+        most_recent_data - timedelta(days=40, hours=14),
         most_recent_data + timedelta(days=1)
     ])
     fig = fig.update_layout(
         template="plotly_white",
         title=f"""
             <b>{model_name}</b> on <b>{STOCK}</b>
-            <br>Training set score: <b>{int(test_score*100)}%</b>
+            <br>Training set score: <b>{int(test_score * 100)}%</b>
             <br>Test set score: <b>{int(set_score * 100)}%</b>
-        """
+        """,
+        margin={ 'b':0, 't':40 }
     )
 
     if sas is False:
