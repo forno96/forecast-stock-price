@@ -111,16 +111,17 @@ def show_data(STOCK, model_name, df, test_score, set_score, predict, sas=True):
         ]
     )
     fig = fig.update_xaxes(range=[
-        most_recent_data - timedelta(days=40),
+        most_recent_data - timedelta(days=40, hours=14),
         most_recent_data + timedelta(days=1)
     ])
     fig = fig.update_layout(
         template="plotly_white",
         title=f"""
             <b>{model_name}</b> on <b>{STOCK}</b>
-            <br>Training set score: <b>{int(test_score*100)}%</b>
+            <br>Training set score: <b>{int(test_score * 100)}%</b>
             <br>Test set score: <b>{int(set_score * 100)}%</b>
-        """
+        """,
+        margin={ 'b':0, 't':40 }
     )
 
     if sas is False:
