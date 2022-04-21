@@ -37,8 +37,8 @@ def get_df(STOCK, base_url='https://query1.finance.yahoo.com/v7/finance/download
     return df
 
 
-def prepare_data(df, forecast_col=[], forecast_out=5, test_size=0.3):
-    # creating new column called label with the last 5 rows are nan
+def prepare_data(df, forecast_col=[], forecast_out=5, test_size=0.2):
+    # creating new column called label with the last 'forecast_out' rows are nan
     label = df[forecast_col].shift(-forecast_out)
     X = np.array(df[forecast_col])  # creating the feature array
     X = preprocessing.scale(X)  # processing the feature array
