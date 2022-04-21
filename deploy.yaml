@@ -21,11 +21,11 @@ spec:
         ports:
         - containerPort: 5000
         env:
-        - name: SECRET_USERNAME
+        - name: secret-key
           valueFrom:
             secretKeyRef:
               name: secret-key
-              key: secret_key
+              key: secret-key
 ---
 apiVersion: v1
 kind: Service
