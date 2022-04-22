@@ -1,9 +1,10 @@
-import dash
 from dash.dependencies import Input, Output
-from dash import dcc, html
 import dash_bootstrap_components as dbc
-
+import dash_lottie_loading as dll
+from dash import dcc, html
+import dash
 import flask
+from flask import url_for
 from os import getenv
 
 try:
@@ -64,7 +65,11 @@ app.layout = html.Div([
             ], className="col-auto"
         ),
     ], className="row align-items-end"),
-    dcc.Graph(id='stock-graph', style={'height': '85vh'}, config={'displaylogo': False})
+    dll.DashLottieLoading(
+        path='static/candlesticks.json',
+        children=dcc.Graph(id='stock-graph', style={'height': '85vh'}, config={'displaylogo': False})
+    ),
+
 ], className="container")
 
 @app.callback(
